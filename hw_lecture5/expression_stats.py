@@ -3,6 +3,7 @@ import numpy as np
 import scipy.stats as st
 from statsmodels.stats.weightstats import ztest
 
+
 first_cell_type_expressions_path = input('Path to first cell expression values: ')
 second_cell_type_expressions_path = input('Path to second cell expression values: ')
 save_results_table = input('Path to output file: ')
@@ -44,11 +45,11 @@ def check_dge_with_ztest(first_table, second_table):
     z_test_results = []
     all_genes = list(first_table.columns[:-1])
     for gene in all_genes:
-        p_value = ztest(
+        _, p_value = ztest(
             first_table[gene],
             second_table[gene]
             )
-        if p_value[1] < 0.05:
+        if p_value < 0.05:
             z_result = True
         else:
             z_result = False
@@ -80,11 +81,11 @@ def mean_diff(first_table, second_table):
 
 
 results = {
-    "Genes": list(first_table.columns[:-1]),
-    "ci-test_results": check_dge_with_ci(first_table, second_table),
-    "z-test_results": check_dge_with_ztest(first_table, second_table),
-    "z-test_p-values": check_pvalues(first_table, second_table),
-    "mean_diff": mean_diff(first_table, second_table)
+    'Genes': list(first_table.columns[:-1]),
+    'ci-test_results': check_dge_with_ci(first_table, second_table),
+    'z-test_results': check_dge_with_ztest(first_table, second_table),
+    'z-test_p-value'": check_pvalues(first_table, second_table),
+    'mean_diff': mean_diff(first_table, second_table)
 }
 
 
